@@ -1,5 +1,6 @@
 //as partes comentadas são vestigios do codigo antigo que tava dando runtime error, 
 //apelei pro vetor padrão sem alocar nada para funcionar
+//funciona normal com alocação de memoria, mas no judge da Unifesp não aceita
 
 #include <stdlib.h>
 #include <stdio.h>
