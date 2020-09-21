@@ -23,14 +23,28 @@ int altura(struct Arv_AVL *Arv_AVL);
 int main()
 {
     struct No *raiz = NULL;
-    raiz = insere_Arv(raiz,3);
-    raiz = insere_Arv(raiz,4);
-    raiz = insere_Arv(raiz,9);
-    raiz = insere_Arv(raiz,2);
-    raiz = insere_Arv(raiz,5);
-    raiz = insere_Arv(raiz,1);
-    raiz = insere_Arv(raiz,8);
-    raiz = remove_Arv(raiz,5);
+
+    int quantidadeEntrada, i, valor, valorBuscado, encontrado;
+
+    scanf("%d", &quantidadeEntrada);
+    for(i = 0; i < quantidadeEntrada; i++)
+    {
+        scanf("%d", &valor);
+        raiz = insere_Arv(raiz,valor);
+    }
+
+    scanf("%d", &valorBuscado);
+    encontrado = consulta_Arv(raiz,valorBuscado);
+
+    if(encontrado == 1)
+    {
+        raiz = remove_Arv(raiz,valorBuscado);
+    }
+    else if(encontrado == 0)
+    {
+        raiz = insere_Arv(raiz,valorBuscado);
+    }
+
     preOrdem_Arv(raiz);
 }
 
@@ -177,25 +191,6 @@ struct Arv_AVL *procuraMenor(struct Arv_AVL *Arv_AVL)
 	return Arv_AVL;
 }
 
-int consulta_Arv(struct Arv_AVL *raiz, int info)
-{
-    if(raiz == NULL){
-        return 0;
-    }
-    struct Arv_AVL *atual = raiz;
-    while(atual != NULL){
-        if(info == atual->info){
-            return 1;
-        }
-        if(info > atual->info){
-            atual = atual->dir;
-        }else{
-            atual = atual->esq;
-        }
-    }
-    return 0;
-}
-
 struct Arv_AVL *RotacaoEsq(struct Arv_AVL *raiz)
 {
 	struct Arv_AVL *pB = raiz->dir;
@@ -237,6 +232,25 @@ void preOrdem_Arv(struct Arv_AVL *raiz)
     {
 		printf("()");
     }
+}
+
+int consulta_Arv(struct Arv_AVL *raiz, int info)
+{
+    if(raiz == NULL){
+        return 0;
+    }
+    struct Arv_AVL *atual = raiz;
+    while(atual != NULL){
+        if(info == atual->info){
+            return 1;
+        }
+        if(info > atual->info){
+            atual = atual->dir;
+        }else{
+            atual = atual->esq;
+        }
+    }
+    return 0;
 }
 
 int verifica_AVL(struct Arv_AVL *Arv_AVL)
