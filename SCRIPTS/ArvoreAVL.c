@@ -11,14 +11,14 @@ struct Arv_AVL{
 struct Arv_AVL *Arv_AVL_Aux(int info);
 struct Arv_AVL *insere_Arv(struct Arv_AVL *raiz, int info);
 struct Arv_AVL *remove_Arv(struct Arv_AVL *raiz, int info);
-struct Arv_AVL *procuraMenor(struct Arv_AVL *atual);
+struct Arv_AVL *procuraMenor(struct Arv_AVL *raiz);
 struct Arv_AVL *RotacaoEsq(struct Arv_AVL *raiz);
 struct Arv_AVL *RotacaoDir(struct Arv_AVL *raiz);
 void preOrdem_Arv(struct Arv_AVL *raiz);
 int consulta_Arv(struct Arv_AVL *raiz, int info);
-int verifica_AVL(struct Arv_AVL *Arv_AVL);
+int verifica_AVL(struct Arv_AVL *raiz);
 int maior(int a, int b);
-int altura(struct Arv_AVL *Arv_AVL);
+int altura(struct Arv_AVL *raiz);
 
 int main()
 {
@@ -167,33 +167,14 @@ struct Arv_AVL *remove_Arv(struct Arv_AVL *raiz, int info)
 	return raiz;
 }
 
-struct Arv_AVL *procuraMenor(struct Arv_AVL *Arv_AVL)
+struct Arv_AVL *procuraMenor(struct Arv_AVL *raiz)
 {
-	while(Arv_AVL->esq != NULL)
+	while(raiz->esq != NULL)
     {
-		Arv_AVL = Arv_AVL->esq;
+		raiz = raiz->esq;
     }
 
-	return Arv_AVL;
-}
-
-int consulta_Arv(struct Arv_AVL *raiz, int info)
-{
-    if(raiz == NULL){
-        return 0;
-    }
-    struct Arv_AVL *atual = raiz;
-    while(atual != NULL){
-        if(info == atual->info){
-            return 1;
-        }
-        if(info > atual->info){
-            atual = atual->dir;
-        }else{
-            atual = atual->esq;
-        }
-    }
-    return 0;
+	return raiz;
 }
 
 struct Arv_AVL *RotacaoEsq(struct Arv_AVL *raiz)
@@ -239,14 +220,33 @@ void preOrdem_Arv(struct Arv_AVL *raiz)
     }
 }
 
-int verifica_AVL(struct Arv_AVL *Arv_AVL)
+int consulta_Arv(struct Arv_AVL *raiz, int info)
 {
-	if(Arv_AVL == NULL)
+    if(raiz == NULL){
+        return 0;
+    }
+    struct Arv_AVL *atual = raiz;
+    while(atual != NULL){
+        if(info == atual->info){
+            return 1;
+        }
+        if(info > atual->info){
+            atual = atual->dir;
+        }else{
+            atual = atual->esq;
+        }
+    }
+    return 0;
+}
+
+int verifica_AVL(struct Arv_AVL *raiz)
+{
+	if(raiz == NULL)
     {
         return 0;
     }
 	
- 	return altura(Arv_AVL->esq) - altura(Arv_AVL->dir);
+ 	return altura(raiz->esq) - altura(raiz->dir);
 }
 
 int maior(int a, int b)
@@ -261,12 +261,12 @@ int maior(int a, int b)
     }
 }
 
-int altura(struct Arv_AVL *Arv_AVL)
+int altura(struct Arv_AVL *raiz)
 {
-	if(Arv_AVL == NULL)
+	if(raiz == NULL)
     {
 		return 0;
     }
 
- 	return Arv_AVL->alt;
+ 	return raiz->alt;
 }
